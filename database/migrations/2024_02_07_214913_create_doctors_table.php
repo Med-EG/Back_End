@@ -27,6 +27,8 @@ return new class extends Migration
             $table->integer('years_of_experince');
             $table->string('scientific_degree');
             $table->binary('doctor_image');
+            $table->decimal('price');
+            $table->integer('rating');
             $table->timestamps();
         });
     }

@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('patient__contact__numbers', function (Blueprint $table) {
-            $table->id('patient_id');
+            $table->id('contact_id');
+            $table->foreign('patient_id')->references('patient_id')->on('patients');
+
             $table->integer('emergency_contact');
             $table->timestamps();
         });
