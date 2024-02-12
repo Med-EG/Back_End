@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('patient__face__id', function (Blueprint $table) {
-            $table->id('patient_id');
+            $table->id('image_id');
+            $table->foreign('patient_id')->references('patient_id')->on('patients');
             $table->binary('face_image');
             $table->timestamps();
         });
