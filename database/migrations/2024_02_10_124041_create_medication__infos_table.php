@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('doctor_id')->references('doctor_id')->on('doctors');
             $table->string('dose');
             $table->string('frequency');
-            $table->text('notes');
+            $table->text('notes')->nullable;
             $table->timestamps();
         });
     }

@@ -20,9 +20,9 @@ return new class extends Migration
             $table->unsignedBigInteger('doctor_id');
             $table->foreign('doctor_id')->references('doctor_id')->on('doctors');
             $table->date('operation_date');
-            $table->string('surgeon name');
-            $table->text('operation_notes');
-            $table->text('complications');
+            $table->string('surgeon name')->nullable;
+            $table->text('operation_notes')->nullable;
+            $table->text('complications')->nullable;
             $table->timestamps();
         });
     }

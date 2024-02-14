@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('message_id');
             $table->unsignedBigInteger('chat_id');
             $table->foreign('chat_id')->references('chat_id')->on('chats');
-            $table->integer('sender_id');
+            $table->string('sender');
             $table->text('content');
             $table->timestamps();
         });

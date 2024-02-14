@@ -25,11 +25,11 @@ return new class extends Migration
             $table->string('job');
             $table->string('marital_status');
             $table->text('past_fracrues')->nullable;
-            $table->string('sleeping_hours');
-            $table->string('sleeping_quality');
+            $table->string('sleeping_hours')->nullable;
+            $table->string('sleeping_quality')->nullable;
             $table->text('father');
             $table->text('mother');
-            $table->text('second_degree');
+            $table->text('second_degree')->nullable;
             $table->timestamps();
         });
     }

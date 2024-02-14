@@ -19,8 +19,7 @@ return new class extends Migration
             $table->foreign('medical_record_id')->references('medical_record_id')->on('basic_medical_info');
             $table->unsignedBigInteger('doctor_id');
             $table->foreign('doctor_id')->references('doctor_id')->on('doctors');
-            $table->text('description');
-            $table->text('notes');
+            $table->text('notes')->nullable;
             $table->timestamps();
         });
     }

@@ -20,8 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('doctor_id');
             $table->foreign('doctor_id')->references('doctor_id')->on('doctors');
             $table->string('allergy_type');
-            $table->string('severity_level');
-            $table->text("body_response");
+            $table->string('severity_level')->nullable;
+            $table->text("body_response")->nullable;
             $table->timestamps();
         });
     }
