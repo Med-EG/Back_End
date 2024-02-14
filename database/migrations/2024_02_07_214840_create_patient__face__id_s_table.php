@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patient__face__id', function (Blueprint $table) {
+        Schema::create('patient_face_id', function (Blueprint $table) {
             $table->id('image_id');
+            $table->unsignedBigInteger('patient_id'); 
             $table->foreign('patient_id')->references('patient_id')->on('patients');
             $table->binary('face_image');
             $table->timestamps();
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patient__face__id');
+        Schema::dropIfExists('patient_face_id');
     }
 };

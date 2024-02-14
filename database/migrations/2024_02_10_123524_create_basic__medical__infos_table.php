@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('basic_medical_info', function (Blueprint $table) {
             $table->id('medical_record_id');
+            $table->unsignedBigInteger('patient_id');
             $table->foreign('patient_id')->references('patient_id')->on('patients');
             $table->float('weight');
             $table->float('height');

@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('working__days', function (Blueprint $table) {
+        Schema::create('working_days', function (Blueprint $table) {
             $table->id('working_day_id');
+            $table->unsignedBigInteger('doctor_id');
             $table->foreign('doctor_id')->references('doctor_id')->on('doctors');
             $table->string('day_of_week');
             $table->timestamps();
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('working__days');
+        Schema::dropIfExists('working_days');
     }
 };

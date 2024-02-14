@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('doctor__appointments', function (Blueprint $table) {
+        Schema::create('doctor_appointments', function (Blueprint $table) {
             $table->id('appointment_id');
+            $table->unsignedBigInteger('patient_id'); 
             $table->foreign('patient_id')->references('patient_id')->on('patients');
+            $table->unsignedBigInteger('doctor_id');
             $table->foreign('doctor_id')->references('doctor_id')->on('doctors');
             $table->string('working_hour_id');
             $table->string('working_day_id');
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('doctor__appointments');
+        Schema::dropIfExists('doctor_appointments');
     }
 };

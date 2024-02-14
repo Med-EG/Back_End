@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('Address');
             $table->date('birth_date');
             $table->integer('phone_number');
-            $table->binary('Personal_image');
+            $table->string('Personal_image');
             $table->timestamps();
         });
     }

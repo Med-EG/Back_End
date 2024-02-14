@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id('chat_id');
+            $table->unsignedBigInteger('patient_id'); 
             $table->foreign('patient_id')->references('patient_id')->on('patients');
+            $table->unsignedBigInteger('doctor_id');
             $table->foreign('doctor_id')->references('doctor_id')->on('doctors');
             $table->time('start_time');
             $table->time('end_time');
