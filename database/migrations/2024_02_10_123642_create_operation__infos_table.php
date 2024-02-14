@@ -11,14 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('operation__infos', function (Blueprint $table) {
-            $table->foreign('operation_id')->references('operation_id')->on('operations')->primary();
+        Schema::create('operation_info', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('operation_id');
+            $table->foreign('operation_id')->references('operation_id')->on('operations');
+            $table->unsignedBigInteger('medical_record_id');
             $table->foreign('medical_record_id')->references('medical_record_id')->on('basic_medical_info');
+            $table->unsignedBigInteger('doctor_id');
             $table->foreign('doctor_id')->references('doctor_id')->on('doctors');
             $table->date('operation_date');
-            $table->string('surgeon name');
-            $table->text('operation_notes');
-            $table->text('complications');
+            $table->string('surgeon name')->nullable;
+            $table->text('operation_notes')->nullable;
+            $table->text('complications')->nullable;
             $table->timestamps();
         });
     }
@@ -28,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('operation__infos');
+        Schema::dropIfExists('operation_info');
     }
 };

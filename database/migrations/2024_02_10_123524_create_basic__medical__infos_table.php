@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('basic_medical_info', function (Blueprint $table) {
             $table->id('medical_record_id');
+            $table->unsignedBigInteger('patient_id');
             $table->foreign('patient_id')->references('patient_id')->on('patients');
             $table->float('weight');
             $table->float('height');
@@ -24,11 +25,11 @@ return new class extends Migration
             $table->string('job');
             $table->string('marital_status');
             $table->text('past_fracrues')->nullable;
-            $table->string('sleeping_hours');
-            $table->string('sleeping_quality');
+            $table->string('sleeping_hours')->nullable;
+            $table->string('sleeping_quality')->nullable;
             $table->text('father');
             $table->text('mother');
-            $table->text('second_degree');
+            $table->text('second_degree')->nullable;
             $table->timestamps();
         });
     }

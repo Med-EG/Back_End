@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('alert__times', function (Blueprint $table) {
-            $table->foreign('alert_id')->references('alert_id')->on('medicine_alerts')->primary();
+        Schema::create('alert_times', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('alert_id');
+            $table->foreign('alert_id')->references('alert_id')->on('medicine_alerts');
             $table->time('alert_time');
             $table->timestamps();
         });
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('alert__times');
+        Schema::dropIfExists('alert_times');
     }
 };

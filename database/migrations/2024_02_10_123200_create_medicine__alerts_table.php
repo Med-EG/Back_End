@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('medicine__alerts', function (Blueprint $table) {
+        Schema::create('medicine_alerts', function (Blueprint $table) {
             $table->id('alert_id');
+            $table->unsignedBigInteger('patient_id'); 
             $table->foreign('patient_id')->references('patient_id')->on('patients');
             $table->string('medicine_name');
             $table->string('medicine_dose');
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('medicine__alerts');
+        Schema::dropIfExists('medicine_alerts');
     }
 };
