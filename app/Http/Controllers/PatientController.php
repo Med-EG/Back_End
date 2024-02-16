@@ -17,7 +17,7 @@ class PatientController extends Controller
     //return single patient
     public function show($id)
     {
-        $patient = Patient::find($id);
+        $patient = Patient::findOrFail($id);
         return $patient;
     }
     //store patient
@@ -36,6 +36,7 @@ class PatientController extends Controller
     //delete patient
     public function destroy($id)
     {
-       return Patient::destroy($id);
+        $patient = Patient::findOrFail($id);
+        return $patient->delete();
     }
 }
