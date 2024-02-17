@@ -7,6 +7,9 @@ use App\Http\Controllers\AllergiesController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\DoctorAssistantController;
+use App\Http\Controllers\BasicMedicalInfoController;
+use App\Http\Controllers\WorkingDayController;
+use App\Http\Controllers\DoctorContactNumberController;
 
 Route::get('/doctor-route', function () {
     return 'This is a doctor route!';
@@ -40,17 +43,40 @@ Route::post('/op', [OperationController::class,'store'] );
 Route::put('/op/{id}', [OperationController::class,'update'] );
 Route::delete('/op/{id}', [OperationController::class,'destroy'] );
 
-//Operation routes
+//Doctor routes
 Route::get('/doctor', [DoctorController::class,'index'] );
 Route::get('/doctor/{id}', [DoctorController::class,'show'] );
 Route::post('/doctor', [DoctorController::class,'store'] );
 Route::put('/doctor/{id}', [DoctorController::class,'update'] );
 Route::delete('/doctor/{id}', [DoctorController::class,'destroy'] );
 
-//Operation routes
+//Doctor Assistant routes
 Route::get('/ast', [DoctorAssistantController::class,'index'] );
 Route::get('/ast/doc/{id}', [DoctorAssistantController::class,'one_doc'] );
 Route::get('/ast/{id}', [DoctorAssistantController::class,'show'] );
 Route::post('/ast', [DoctorAssistantController::class,'store'] );
 Route::put('/ast/{id}', [DoctorAssistantController::class,'update'] );
 Route::delete('/ast/{id}', [DoctorAssistantController::class,'destroy'] );
+
+//Medical Record routes
+Route::get('/rec', [BasicMedicalInfoController::class,'index'] );
+Route::get('/rec/{id}', [BasicMedicalInfoController::class,'show'] );
+Route::post('/rec', [BasicMedicalInfoController::class,'store'] );
+Route::put('/rec/{id}', [BasicMedicalInfoController::class,'update'] );
+Route::delete('/rec/{id}', [BasicMedicalInfoController::class,'destroy'] );
+
+//Doctor working days routes
+Route::get('/day', [WorkingDayController::class,'index'] );
+Route::get('/day/doc/{id}', [WorkingDayController::class,'one_doc'] );
+Route::get('/day/{id}', [WorkingDayController::class,'show'] );
+Route::post('/day', [WorkingDayController::class,'store'] );
+Route::put('/day/{id}', [WorkingDayController::class,'update'] );
+Route::delete('/day/{id}', [WorkingDayController::class,'destroy'] );
+
+//Doctor contact numbers routes
+Route::get('/num', [DoctorContactNumberController::class,'index'] );
+Route::get('/num/doc/{id}', [DoctorContactNumberController::class,'one_doc'] );
+Route::get('/num/{id}', [DoctorContactNumberController::class,'show'] );
+Route::post('/num', [DoctorContactNumberController::class,'store'] );
+Route::put('/num/{id}', [DoctorContactNumberController::class,'update'] );
+Route::delete('/num/{id}', [DoctorContactNumberController::class,'destroy'] );

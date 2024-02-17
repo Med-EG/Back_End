@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Basic_Medical_Info;
+use App\Models\BasicMedicalInfo;
 
 class Patient extends Model
 {
@@ -14,6 +14,6 @@ class Patient extends Model
     protected $primaryKey='patient_id';
     public function basicMedicalInfo()
     {
-        return $this->hasOne(Basic_Medical_Info::class, 'patient_id', 'patient_id');
+        return $this->hasOne(BasicMedicalInfo::class, 'patient_id', 'patient_id');
     }
 }

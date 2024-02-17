@@ -9,12 +9,16 @@ use App\Models\Doctor;
 
 class DoctorAssistantController extends Controller
 {
+
+    //Showing all doctor assistants
     public function index()
     {
-        $medicalInfos = DoctorAssistant::all();
+        $assistant = DoctorAssistant::all();
 
-        return $medicalInfos;
+        return $assistant;
     }
+
+    //showing all el assistant for one doctor
     public function one_doc($doctorId)
     {
         $doctor = Doctor::find($doctorId);
@@ -26,21 +30,9 @@ class DoctorAssistantController extends Controller
         return response()->json($assistants);
     }
 
+    //storing new assistant
     public function store(Request $request)
     {
-        // $doctor = Doctor::find($doctorId);
-        // if (!$doctor) {
-        //     return response()->json(['error' => 'Doctor not found'], 404);
-        // }
-
-        // $validatedData = $request->validate([
-        //     'name' => 'required',
-        // ]);
-
-        // $assistant = DoctorAssistant::create([
-        //     'name' => $request->name,
-        //     'doctor_id' => $doctorId,
-        // ]);
         $validatedData = $request->validate([
             'doctor_id' => 'required|exists:doctors,doctor_id',
             'assistant_name' => 'required',
@@ -58,12 +50,13 @@ class DoctorAssistantController extends Controller
         return response()->json($assistant, 201);
     }
 
-    public function show($id)
+    //show a single assistant
+    public function show($doctorId)
     {
-        $assistant = DoctorAssistant::findOrFail($id);
-        return response()->json($assistant);
+        return DoctorAssistant::with('doctor')->where('doctor_id', $doctorId)->firstOrFail();
     }
 
+    //updating an assistant
     public function update(Request $request, $id)
     {
         $assistant = DoctorAssistant::findOrFail($id);
@@ -83,6 +76,7 @@ class DoctorAssistantController extends Controller
         return response()->json($assistant, 200);
     }
 
+    //delete an assistant
     public function destroy($id)
     {
         $assistant = DoctorAssistant::findOrFail($id);
