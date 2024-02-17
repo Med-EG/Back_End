@@ -6,6 +6,7 @@ use App\Http\Controllers\DiseaseController;
 use App\Http\Controllers\AllergiesController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\DoctorController;
+use App\Http\Controllers\DoctorAssistantController;
 
 Route::get('/doctor-route', function () {
     return 'This is a doctor route!';
@@ -45,3 +46,11 @@ Route::get('/doctor/{id}', [DoctorController::class,'show'] );
 Route::post('/doctor', [DoctorController::class,'store'] );
 Route::put('/doctor/{id}', [DoctorController::class,'update'] );
 Route::delete('/doctor/{id}', [DoctorController::class,'destroy'] );
+
+//Operation routes
+Route::get('/ast', [DoctorAssistantController::class,'index'] );
+Route::get('/ast/doc/{id}', [DoctorAssistantController::class,'one_doc'] );
+Route::get('/ast/{id}', [DoctorAssistantController::class,'show'] );
+Route::post('/ast', [DoctorAssistantController::class,'store'] );
+Route::put('/ast/{id}', [DoctorAssistantController::class,'update'] );
+Route::delete('/ast/{id}', [DoctorAssistantController::class,'destroy'] );

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chats', function (Blueprint $table) {
-            $table->id('chat_id');
+        Schema::create('medicine_alerts', function (Blueprint $table) {
+            $table->id('alert_id');
             $table->unsignedBigInteger('patient_id'); 
             $table->foreign('patient_id')->references('patient_id')->on('patients')->onDelete('CASCADE');
-            $table->unsignedBigInteger('doctor_id');
-            $table->foreign('doctor_id')->references('doctor_id')->on('doctors')->onDelete('CASCADE');
+            $table->string('medicine_name');
+            $table->string('medicine_dose');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chats');
+        Schema::dropIfExists('medicine_alerts');
     }
 };

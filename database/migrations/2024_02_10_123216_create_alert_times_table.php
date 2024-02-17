@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patient_contact_numbers', function (Blueprint $table) {
-            $table->id('contact_id');
-            $table->unsignedBigInteger('patient_id'); 
-            $table->foreign('patient_id')->references('patient_id')->on('patients');
-            $table->integer('emergency_contact');
+        Schema::create('alert_times', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('alert_id');
+            $table->foreign('alert_id')->references('alert_id')->on('medicine_alerts')->onDelete('CASCADE');
+            $table->time('alert_time');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patient_contact_numbers');
+        Schema::dropIfExists('alert_times');
     }
 };

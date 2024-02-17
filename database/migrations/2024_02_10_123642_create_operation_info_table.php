@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('operation_info', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('operation_id');
-            $table->foreign('operation_id')->references('operation_id')->on('operations');
+            $table->foreign('operation_id')->references('operation_id')->on('operations')->onDelete('CASCADE');
             $table->unsignedBigInteger('medical_record_id');
-            $table->foreign('medical_record_id')->references('medical_record_id')->on('basic_medical_info');
+            $table->foreign('medical_record_id')->references('medical_record_id')->on('basic_medical_info')->onDelete('CASCADE');
             $table->unsignedBigInteger('doctor_id');
-            $table->foreign('doctor_id')->references('doctor_id')->on('doctors');
+            $table->foreign('doctor_id')->references('doctor_id')->on('doctors')->onDelete('CASCADE');
             $table->date('operation_date');
             $table->string('surgeon name')->nullable;
             $table->text('operation_notes')->nullable;

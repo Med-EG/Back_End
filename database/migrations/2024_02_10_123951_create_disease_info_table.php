@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('disease_info', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('disease_id');
-            $table->foreign('disease_id')->references('disease_id')->on('diseases');
+            $table->foreign('disease_id')->references('disease_id')->on('diseases')->onDelete('CASCADE');
             $table->unsignedBigInteger('medical_record_id');
-            $table->foreign('medical_record_id')->references('medical_record_id')->on('basic_medical_info');
-            $table->unsignedBigInteger('doctor_id');
-            $table->foreign('doctor_id')->references('doctor_id')->on('doctors');
-            $table->text('notes')->nullable;
+            $table->foreign('medical_record_id')->references('medical_record_id')->on('basic_medical_info')->onDelete('CASCADE');
+            $table->unsignedBigInteger('doctor_id')->nullable();
+            $table->foreign('doctor_id')->references('doctor_id')->on('doctors')->onDelete('SET NULL');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

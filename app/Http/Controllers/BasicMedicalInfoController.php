@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Basic_Medical_Info;
+use App\Models\BasicMedicalInfo;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -12,13 +12,13 @@ class BasicMedicalInfoController extends Controller
 {
     public function index()
     {
-        $medicalInfos = Basic_Medical_Info::all();
+        $medicalInfos = BasicMedicalInfo::all();
 
         return $medicalInfos;
     }
     public function show($patientId)
     {
-        return Basic_Medical_Info::with('patient')->where('patient_id', $patientId)->firstOrFail();
+        return BasicMedicalInfo::with('patient')->where('patient_id', $patientId)->firstOrFail();
     }
     public function store(Request $request)
     {
@@ -45,20 +45,20 @@ class BasicMedicalInfoController extends Controller
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $medicalInfo = Basic_Medical_Info::create($request->all());
+        $medicalInfo = BasicMedicalInfo::create($request->all());
 
         return $medicalInfo;
     }
     public function update(Request $request, $id)
     {
-        $medicalInfo = Basic_Medical_Info::findOrFail($id);
+        $medicalInfo = BasicMedicalInfo::findOrFail($id);
         $medicalInfo->update($request->all());
 
         return $medicalInfo;
     }
     public function destroy($id)
     {
-        $medicalInfo = Basic_Medical_Info::findOrFail($id);
+        $medicalInfo = BasicMedicalInfo::findOrFail($id);
         $medicalInfo->delete();
     }
 }

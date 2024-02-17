@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('working_days', function (Blueprint $table) {
-            $table->id('working_day_id');
+        Schema::create('doctor_contact_numbers', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('doctor_id');
-            $table->foreign('doctor_id')->references('doctor_id')->on('doctors');
-            $table->string('day_of_week');
+            $table->foreign('doctor_id')->references('doctor_id')->on('doctors')->onDelete('CASCADE');
+            $table->string('contact_number');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('working_days');
+        Schema::dropIfExists('doctor_contact_numbers');
     }
 };

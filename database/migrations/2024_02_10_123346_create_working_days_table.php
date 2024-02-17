@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('patient_face_id', function (Blueprint $table) {
-            $table->id('image_id');
-            $table->unsignedBigInteger('patient_id'); 
-            $table->foreign('patient_id')->references('patient_id')->on('patients');
-            $table->binary('face_image');
+        Schema::create('working_days', function (Blueprint $table) {
+            $table->id('working_day_id');
+            $table->unsignedBigInteger('doctor_id');
+            $table->foreign('doctor_id')->references('doctor_id')->on('doctors')->onDelete('CASCADE');
+            $table->string('day_of_week');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('patient_face_id');
+        Schema::dropIfExists('working_days');
     }
 };
