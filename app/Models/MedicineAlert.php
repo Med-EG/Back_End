@@ -11,9 +11,11 @@ class MedicineAlert extends Model
     protected $fillable = [
         'patient_id', 'medicine_name', 'medicine_dose'
     ];
+    protected $primaryKey = 'alert_id';
+
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_id');
+        return $this->belongsTo(Patient::class, 'patient_id','patient_id');
     }
 }
