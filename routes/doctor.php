@@ -75,8 +75,8 @@ Route::delete('/day/{id}', [WorkingDayController::class,'destroy'] );
 
 //Doctor contact numbers routes
 Route::get('/num', [DoctorContactNumberController::class,'index'] );
-Route::get('/num/doc/{id}', [DoctorContactNumberController::class,'one_doc'] );
-Route::get('/num/{id}', [DoctorContactNumberController::class,'show'] );
+Route::get('/num/doc/{id}', [DoctorContactNumberController::class,'showByDoctor'] );
+Route::get('/num/{id}', [DoctorContactNumberController::class,'showById'] );
 Route::post('/num', [DoctorContactNumberController::class,'store'] );
 Route::put('/num/{id}', [DoctorContactNumberController::class,'update'] );
 Route::delete('/num/{id}', [DoctorContactNumberController::class,'destroy'] );
