@@ -18,7 +18,7 @@ class DoctorContactNumberController extends Controller
     }
 
     //showing all el numbers for one doctor
-    public function one_doc($doctorId)
+    public function showByDoctor($doctorId)
     {
         $doctor = Doctor::find($doctorId);
         if (!$doctor) {
@@ -46,9 +46,11 @@ class DoctorContactNumberController extends Controller
     }
 
     //show a single number
-    public function show($doctorId)
+    public function showById($id)
     {
-        return DoctorContactNumber::with('doctor')->where('doctor_id', $doctorId)->firstOrFail();
+        $number = DoctorContactNumber::findOrFail($id);
+        return response()->json($number, 200);
+        
     }
 
     //updating a number
