@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('image_id');
             $table->unsignedBigInteger('patient_id'); 
             $table->foreign('patient_id')->references('patient_id')->on('patients')->onDelete('CASCADE');
-            $table->binary('face_image');
+            $table->string('face_image');
             $table->timestamps();
         });
     }

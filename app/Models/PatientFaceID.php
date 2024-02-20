@@ -5,10 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PatientFaceID extends Model
+class PatientFaceId extends Model
+
 {
-    use HasFactory;
-    protected $primaryKey = 'image_id';
+ protected $table = 'patient_face_id';
+ protected $primaryKey = 'image_id';
+
+    protected $fillable = [
+        'patient_id',
+        'face_image',
+    ];
 
     public function patient()
     {

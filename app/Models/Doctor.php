@@ -56,4 +56,8 @@ class Doctor extends Model
     {
         return $this->hasMany(WorkingDay::class , 'doctor_id' , 'doctor_id');
     }
+    public function chats()
+    {
+        return $this->hasMany(Chat::class, 'doctor_id', 'doctor_id');
+    }
 }   

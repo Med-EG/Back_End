@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\BasicMedicalInfo;
 use App\Models\medicineAlert;
 use App\Models\PatientEmergencyContact;
-use App\Models\PatientFaceID;
+use App\Models\PatientFaceId;
+use App\Models\Chat;
 
 
 class Patient extends Model
@@ -27,11 +28,15 @@ class Patient extends Model
    
     public function patientFaceID()
     {
-        return $this->hasMany(PatientFaceID::class, 'patient_id');
+        return $this->hasMany(PatientFaceId::class, 'patient_id');
     }
     public function emergencyContacts()
     {
         return $this->hasMany(PatientEmergencyContact::class, 'patient_id');
+    }
+    public function chats()
+    {
+        return $this->hasMany(Chat::class, 'doctor_id', 'doctor_id');
     }
    
 }

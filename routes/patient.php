@@ -4,10 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\MedicineAlertController;
 use App\Http\Controllers\BasicMedicalInfoController;
-use App\Http\Controllers\PatientFaceIDController;
+use App\Http\Controllers\PatientFaceIdController;
 use App\Http\Controllers\PatientEmergencyContactsController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\AlertTimeController;
 
-use App\Models\Patient;
 
 Route::get('/patient-route', function () {
     return 'This is a patient route!';
@@ -40,4 +41,21 @@ Route::post('/patient-emergency-contacts', [PatientEmergencyContactsController::
 Route::put('/patient-emergency-contacts/{contact_id}', [PatientEmergencyContactsController::class, 'update']);
 Route::delete('/patient-emergency-contacts/{contact_id}', [PatientEmergencyContactsController::class, 'destroy']);
 Route::get('/patients/{patientId}/emergency-contacts', [PatientEmergencyContactsController::class, 'getEmergencyContacts']);
-
+//////////////////////////
+Route::get('/chat', [ChatController::class, 'index']);
+Route::get('/chat/{chatId}', [ChatController::class, 'show']);
+Route::post('/chat', [ChatController::class, 'store']);
+Route::delete('/chat/{chatId}/delete', [ChatController::class, 'destroy']);
+/////////////////////////
+Route::get('/patient-face-ids', [PatientFaceIdController::class, 'index']);
+Route::get('/patient-face-ids/{id}', [PatientFaceIdController::class, 'show']);
+Route::post('/patient-face-ids', [PatientFaceIdController::class, 'store']);
+Route::put('/patient-face-ids/{id}', [PatientFaceIdController::class, 'update']);
+Route::delete('/patient-face-ids/{id}', [PatientFaceIdController::class, 'destroy']);
+Route::get('/patient-face-ids/patient/{patientId}', [PatientFaceIdController::class, 'getFaceIdsForOnePatient']);
+//////////////////////////
+Route::get('/alert-times', [AlertTimeController::class, 'index']);
+Route::get('/alert-times/{id}', [AlertTimeController::class, 'show']);
+Route::post('/alert-times', [AlertTimeController::class, 'store']);
+Route::put('/alert-times/{id}', [AlertTimeController::class, 'update']);
+Route::delete('/alert-times/{id}', [AlertTimeController::class, 'destroy']);
