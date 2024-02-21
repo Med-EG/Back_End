@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AlertTime;
+use App\Models\MedicineAlert;
 
 class AlertTimeController extends Controller
 {
@@ -63,4 +64,14 @@ class AlertTimeController extends Controller
 
         return  $alertTime->delete();
     }
+    public function getTimesForMedicineAlert($alertId)
+{
+    $medicineAlert = MedicineAlert::with('alertTimes')->find($alertId);
+
+    if (!$medicineAlert) {
+        return response()->json(['message' => 'Medicine alert not found'], 404);
+    }
+
+    return response()->json($medicineAlert->alertTimes);
+}
 }

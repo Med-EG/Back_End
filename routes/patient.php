@@ -20,7 +20,6 @@ Route::get('/patients/{id}',[PatientController::class,'show'])
 Route::post('/patients',[PatientController::class,'store'])->name('store');
 Route::put('/patients/{id}/update',[PatientController::class,'update'])->name('update');
 Route::delete('/patients/{id}/delete',[PatientController::class,'destroy'])->name('destroy');
-
 //////////////////////////////////////
 Route::get('/medical-info', [BasicMedicalInfoController::class, 'index']);
 Route::get('/medical-info/{patientId}', [BasicMedicalInfoController::class, 'show']);
@@ -59,3 +58,4 @@ Route::get('/alert-times/{id}', [AlertTimeController::class, 'show']);
 Route::post('/alert-times', [AlertTimeController::class, 'store']);
 Route::put('/alert-times/{id}', [AlertTimeController::class, 'update']);
 Route::delete('/alert-times/{id}', [AlertTimeController::class, 'destroy']);
+Route::get('/alert-times/alert/{alertId}', [AlertTimeController::class, 'getTimesForMedicineAlert']);

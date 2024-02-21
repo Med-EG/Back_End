@@ -18,4 +18,8 @@ class MedicineAlert extends Model
     {
         return $this->belongsTo(Patient::class, 'patient_id','patient_id');
     }
+    public function alertTimes()
+{
+    return $this->hasMany(AlertTime::class, 'alert_id', 'alert_id');
+}
 }
