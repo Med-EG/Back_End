@@ -10,4 +10,8 @@ class Allergies extends Model
     use HasFactory;
     protected $fillable = ['allergy_name'];
     protected $primaryKey = "allergy_id";
+    public function allergiesInfo()
+    {
+        return $this->hasMany(AllergiesInfo::class, 'allergy_id', 'allergy_id');
+    }
 }

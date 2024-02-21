@@ -10,6 +10,13 @@ use App\Http\Controllers\DoctorAssistantController;
 use App\Http\Controllers\BasicMedicalInfoController;
 use App\Http\Controllers\WorkingDayController;
 use App\Http\Controllers\DoctorContactNumberController;
+use App\Http\Controllers\DoctorAppointmentController;
+use App\Http\Controllers\WorkingHourController;
+use App\Http\Controllers\MedicationInfoController;
+use App\Http\Controllers\DiseaseInfoController;
+use App\Http\Controllers\OperationInfoController;
+use App\Http\Controllers\AllergiesInfoController;
+
 
 Route::get('/doctor-route', function () {
     return 'This is a doctor route!';
@@ -73,6 +80,15 @@ Route::post('/day', [WorkingDayController::class,'store'] );
 Route::put('/day/{id}', [WorkingDayController::class,'update'] );
 Route::delete('/day/{id}', [WorkingDayController::class,'destroy'] );
 
+//Doctor working hour routes
+Route::get('/hr', [WorkingHourController::class,'index'] );
+Route::get('/hr/day/{id}', [WorkingHourController::class,'showByDay'] );
+Route::get('/hr/doc/{id}', [WorkingHourController::class,'showByDoctor'] );
+Route::get('/hr/{id}', [WorkingHourController::class,'show'] );
+Route::post('/hr', [WorkingHourController::class,'store'] );
+Route::put('/hr/{id}', [WorkingHourController::class,'update'] );
+Route::delete('/hr/{id}', [WorkingHourController::class,'destroy'] );
+
 //Doctor contact numbers routes
 Route::get('/num', [DoctorContactNumberController::class,'index'] );
 Route::get('/num/doc/{id}', [DoctorContactNumberController::class,'showByDoctor'] );
@@ -80,3 +96,48 @@ Route::get('/num/{id}', [DoctorContactNumberController::class,'showById'] );
 Route::post('/num', [DoctorContactNumberController::class,'store'] );
 Route::put('/num/{id}', [DoctorContactNumberController::class,'update'] );
 Route::delete('/num/{id}', [DoctorContactNumberController::class,'destroy'] );
+
+//Doctor contact numbers routes
+Route::get('/app', [DoctorAppointmentController::class,'index'] );
+Route::get('/app/doc/{id}', [DoctorAppointmentController::class,'showByDoctor'] );
+Route::get('/app/pat/{id}', [DoctorAppointmentController::class,'showByPatient'] );
+Route::get('/app/{id}', [DoctorAppointmentController::class,'show'] );
+Route::post('/app', [DoctorAppointmentController::class,'store'] );
+Route::put('/app/{id}', [DoctorAppointmentController::class,'update'] );
+Route::delete('/app/{id}', [DoctorAppointmentController::class,'destroy'] );
+
+//Doctor medication info routes
+Route::get('/medinfo', [MedicationInfoController::class,'index'] );
+Route::get('/medinfo/day/{id}', [MedicationInfoController::class,'showByRecord'] );
+Route::get('/medinfo/doc/{id}', [MedicationInfoController::class,'showByDoctor'] );
+Route::get('/medinfo/{id}', [MedicationInfoController::class,'show'] );
+Route::post('/medinfo', [MedicationInfoController::class,'store'] );
+Route::put('/medinfo/{id}', [MedicationInfoController::class,'update'] );
+Route::delete('/medinfo/{id}', [MedicationInfoController::class,'destroy'] );
+
+//Doctor Disease Info routes
+Route::get('/disinfo', [DiseaseInfoController::class,'index'] );
+Route::get('/disinfo/day/{id}', [DiseaseInfoController::class,'showByRecord'] );
+Route::get('/disinfo/doc/{id}', [DiseaseInfoController::class,'showByDoctor'] );
+Route::get('/disinfo/{id}', [DiseaseInfoController::class,'show'] );
+Route::post('/disinfo', [DiseaseInfoController::class,'store'] );
+Route::put('/disinfo/{id}', [DiseaseInfoController::class,'update'] );
+Route::delete('/disinfo/{id}', [DiseaseInfoController::class,'destroy'] );
+
+//Doctor Operation Info routes
+Route::get('/opinfo', [OperationInfoController::class,'index'] );
+Route::get('/opinfo/day/{id}', [OperationInfoController::class,'showByRecord'] );
+Route::get('/opinfo/doc/{id}', [OperationInfoController::class,'showByDoctor'] );
+Route::get('/opinfo/{id}', [OperationInfoController::class,'show'] );
+Route::post('/opinfo', [OperationInfoController::class,'store'] );
+Route::put('/opinfo/{id}', [OperationInfoController::class,'update'] );
+Route::delete('/opinfo/{id}', [OperationInfoController::class,'destroy'] );
+
+//Doctor Allergy Info routes
+Route::get('/alginfo', [AllergiesInfoController::class,'index'] );
+Route::get('/alginfo/day/{id}', [AllergiesInfoController::class,'showByRecord'] );
+Route::get('/alginfo/doc/{id}', [AllergiesInfoController::class,'showByDoctor'] );
+Route::get('/alginfo/{id}', [AllergiesInfoController::class,'show'] );
+Route::post('/alginfo', [AllergiesInfoController::class,'store'] );
+Route::put('/alginfo/{id}', [AllergiesInfoController::class,'update'] );
+Route::delete('/alginfo/{id}', [AllergiesInfoController::class,'destroy'] );

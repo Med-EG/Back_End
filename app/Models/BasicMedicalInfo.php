@@ -35,4 +35,20 @@ class BasicMedicalInfo extends Model
     {
         return $this->belongsTo(Patient::class, 'patient_id', 'patient_id');
     }
+    public function medicationInfo()
+    {
+        return $this->belongsTo(MedicationInfo::class, 'medical_record_id', 'medical_record_id');
+    }
+    public function diseaseInfo()
+    {
+        return $this->hasmany(DiseaseInfo::class, 'medical_record_id', 'medical_record_id');
+    }
+    public function operationInfo()
+    {
+        return $this->hasmany(OperationInfo::class, 'medical_record_id', 'medical_record_id');
+    }
+    public function allergiesInfo()
+    {
+        return $this->hasMany(AllergiesInfo::class, 'medical_record_id', 'medical_record_id');
+    }
 }

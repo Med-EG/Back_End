@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('disease_info', function (Blueprint $table) {
+        Schema::create('allergies_infos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('disease_id');
-            $table->foreign('disease_id')->references('disease_id')->on('diseases')->onDelete('CASCADE');
+            $table->unsignedBigInteger('allergy_id');
+            $table->foreign('allergy_id')->references('allergy_id')->on('allergies')->onDelete('CASCADE');
             $table->unsignedBigInteger('medical_record_id');
             $table->foreign('medical_record_id')->references('medical_record_id')->on('basic_medical_info')->onDelete('CASCADE');
             $table->unsignedBigInteger('doctor_id')->nullable();
             $table->foreign('doctor_id')->references('doctor_id')->on('doctors')->onDelete('SET NULL');
-            $table->text('notes')->nullable();
+            $table->string('allergy_type');
+            $table->string('severity_level')->nullable();
+            $table->text('body_response')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('disease_info');
+        Schema::dropIfExists('allergies_infos');
     }
 };
