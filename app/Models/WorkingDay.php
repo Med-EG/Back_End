@@ -20,4 +20,8 @@ class WorkingDay extends Model
     {
         return $this->belongsTo(Doctor::class , 'doctor_id' , 'doctor_id');
     }
+    public function workingHour()
+    {
+        return $this->hasMany(WorkingHour::class ,'working_day_id', 'working_day_id');
+    }
 }

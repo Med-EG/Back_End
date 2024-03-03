@@ -20,12 +20,6 @@ class PatientController extends Controller
         $patient = Patient::findOrFail($id);
         return $patient;
     }
-    //store patient
-    public function store(Request $request)
-    {
-        $patient = Patient::create($request->all());
-        return $patient;
-    }
     //edit patient
     public function update(Request $request, $id)
     {

@@ -17,8 +17,10 @@ return new class extends Migration
             $table->foreign('patient_id')->references('patient_id')->on('patients')->onDelete('CASCADE');
             $table->unsignedBigInteger('doctor_id');
             $table->foreign('doctor_id')->references('doctor_id')->on('doctors')->onDelete('CASCADE');
-            $table->string('working_hour_id');
-            $table->string('working_day_id');
+            $table->unsignedBigInteger('working_day_id');
+            $table->foreign('working_day_id')->references('working_day_id')->on('working_days')->onDelete('CASCADE');
+            $table->unsignedBigInteger('working_hour_id');
+            $table->foreign('working_hour_id')->references('working_hour_id')->on('working_hours')->onDelete('CASCADE');
             $table->timestamps();
         });
     }
