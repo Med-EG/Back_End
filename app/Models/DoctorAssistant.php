@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-class DoctorAssistant extends Model
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+class DoctorAssistant extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory,HasApiTokens;
     protected $fillable = [
         'doctor_id',
         'assistant_name',

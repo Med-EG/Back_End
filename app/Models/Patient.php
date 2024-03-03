@@ -9,12 +9,12 @@ use App\Models\medicineAlert;
 use App\Models\PatientEmergencyContact;
 use App\Models\PatientFaceId;
 use App\Models\Chat;
-
-
-class Patient extends Model
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+class Patient extends Authenticatable
 {
-    use HasFactory;
-    protected $fillable=['first_name','last_name','username','password','gender','national_id','email','Address','birth_date','phone_number','Personal_image'
+    use HasFactory,HasApiTokens;
+    protected $fillable=['first_name','last_name','username','password','gender','national_id','email','address','birth_date','phone_number','Personal_image'
 ];
     protected $primaryKey='patient_id';
     public function basicMedicalInfo()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AlertTime;
+use Illuminate\Support\Facades\Validator;
 
 class AlertTimeController extends Controller
 {

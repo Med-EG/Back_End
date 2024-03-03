@@ -8,18 +8,20 @@ use App\Http\Controllers\PatientFaceIdController;
 use App\Http\Controllers\PatientEmergencyContactsController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AlertTimeController;
+use App\Http\Controllers\PatientAuthController;
+
+// Patient Authentication Routes
+// =============================================================================================
+Route::post('/signup', [PatientAuthController::class, 'signup']);
+Route::post('/login', [PatientAuthController::class, 'login']);
+Route::post('/logout', [PatientAuthController::class, 'logout'])->middleware('auth:sanctum');
 
 
-Route::get('/patient-route', function () {
-    return 'This is a patient route!';
-    
-});
-Route::get('/patients',[PatientController::class,'index'])->name('patients');
-Route::get('/patients/{id}',[PatientController::class,'show'])
-->name('show');
-Route::post('/patients',[PatientController::class,'store'])->name('store');
-Route::put('/patients/{id}/update',[PatientController::class,'update'])->name('update');
-Route::delete('/patients/{id}/delete',[PatientController::class,'destroy'])->name('destroy');
+Route::get('/patients',[PatientController::class,'index']);
+Route::get('/patients/{id}',[PatientController::class,'show']);
+Route::post('/patients',[PatientController::class,'store']);
+Route::put('/patients/{id}/update',[PatientController::class,'update']);
+Route::delete('/patients/{id}/delete',[PatientController::class,'destroy']);
 
 //////////////////////////////////////
 Route::get('/medical-info', [BasicMedicalInfoController::class, 'index']);
