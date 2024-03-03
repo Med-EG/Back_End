@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DoctorAssistant;
 use App\Models\Doctor;
+use Illuminate\Support\Facades\Validator;
 
 class DoctorAssistantController extends Controller
 {

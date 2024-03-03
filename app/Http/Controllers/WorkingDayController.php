@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Doctor;
 use App\Models\WorkingDay;
+use Illuminate\Support\Facades\Validator;
+
 class WorkingDayController extends Controller
 {
     //Showing all days
@@ -31,19 +33,19 @@ class WorkingDayController extends Controller
     //storing new assistant
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'doctor_id' => 'required|exists:doctors,doctor_id',
-            'day_of_week' => 'required',
+        $validator = Validator::make($request->all(), [
+            'doctor_id'   => 'required|exists:doctors,doctor_id',
+            'day_of_week' => 'required|string',
         ]);
 
-        $day = new WorkingDay();
-        $day->doctor_id = $validatedData['doctor_id'];
-        $day->day_of_week = $validatedData['day_of_week'];
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
 
-        $day->save();
-        return response()->json($day, 201);
+        $workingDay = WorkingDay::create($request->all());
+
+        return response()->json($workingDay, 201);
     }
-
     //show a single day
     public function show($doctorId)
     {
@@ -53,17 +55,24 @@ class WorkingDayController extends Controller
     //updating a day
     public function update(Request $request, $id)
     {
-        $day = WorkingDay::findOrFail($id);
-
-        $validatedData = $request->validate([
-            'day_of_week' => 'required',
+        $validator = Validator::make($request->all(), [
+            'doctor_id'   => 'required|exists:doctors,doctor_id',
+            'day_of_week' => 'required|string', 
         ]);
 
-        $day->day_of_week = $validatedData['day_of_week'];
-        
-        $day->save();
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
 
-        return response()->json($day, 200);
+        $workingDay = WorkingDay::find($id);
+
+        if (!$workingDay) {
+            return response()->json(['error' => 'WorkingDay not found'], 404);
+        }
+
+        $workingDay->update($request->all());
+
+        return $workingDay;
     }
 
     //delete a day

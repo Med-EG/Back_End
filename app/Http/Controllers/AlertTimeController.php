@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AlertTime;
+use App\Models\MedicineAlert;
+use Illuminate\Support\Facades\Validator;
 
 class AlertTimeController extends Controller
 {
@@ -27,10 +29,14 @@ class AlertTimeController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validatedData =Validator::make( $request->all(),[
             'alert_id' => 'required|exists:medicine_alerts,alert_id',
             'alert_time' => 'required|date_format:H:i:s',
         ]);
+        if ($validatedData->fails()) {
+            return response()->json(['error' => $validatedData->errors()], 400);
+        }
+      
 
         $alertTime = AlertTime::create($request->all());
         return $alertTime;
@@ -38,11 +44,14 @@ class AlertTimeController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'alert_id' => 'exists:medicine_alerts,alert_id',
-            'alert_time' => 'date_format:H:i:s',
+     
+        $validatedData =Validator::make( $request->all(),[
+            'alert_id' => 'required|exists:medicine_alerts,alert_id',
+            'alert_time' => 'required|date_format:H:i:s',
         ]);
-
+        if ($validatedData->fails()) {
+            return response()->json(['error' => $validatedData->errors()], 400);
+        }
         $alertTime = AlertTime::find($id);
 
         if (!$alertTime) {

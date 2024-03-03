@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\DoctorContactNumber;
 use App\Models\Doctor;
+use Illuminate\Support\Facades\Validator;
+
 
 class DoctorContactNumberController extends Controller
 {
@@ -32,17 +34,17 @@ class DoctorContactNumberController extends Controller
     //storing new number
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'doctor_id' => 'required|exists:doctors,doctor_id',
-            'contact_number' => 'required',
+        $validator = Validator::make($request->all(), [
+            'doctor_id'      => 'required|exists:doctors,doctor_id',
+            'contact_number' => 'required|string',
         ]);
 
-        $number = new DoctorContactNumber();
-        $number->doctor_id = $validatedData['doctor_id'];
-        $number->contact_number = $validatedData['contact_number'];
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+        $doctorContact = DoctorContactNumber::create($request->all());
 
-        $number->save();
-        return response()->json($number, 201);
+        return response()->json($doctorContact, 201);
     }
 
     //show a single number
@@ -56,17 +58,24 @@ class DoctorContactNumberController extends Controller
     //updating a number
     public function update(Request $request, $id)
     {
-        $number = DoctorContactNumber::findOrFail($id);
-
-        $validatedData = $request->validate([
-            'contact_number' => 'required',
+        $validator = Validator::make($request->all(), [
+            'doctor_id'      => 'required|exists:doctors,doctor_id',
+            'contact_number' => 'required|string',
         ]);
 
-        $number->contact_number = $validatedData['contact_number'];
-        
-        $number->save();
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
 
-        return response()->json($number, 200);
+        $doctorContact = DoctorContactNumber::find($id);
+
+        if (!$doctorContact) {
+            return response()->json(['error' => 'DoctorContact not found'], 404);
+        }
+
+        $doctorContact->update($request->all());
+
+        return $doctorContact;
     }
 
     //delete a day

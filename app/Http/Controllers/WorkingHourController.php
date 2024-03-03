@@ -44,10 +44,26 @@ class WorkingHourController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $hour = WorkingHour::findOrFail($id);
-        $hour->update($request->all());
+        $validatedData = Validator::make($request->all(), [
+            'working_day_id' => 'required|exists:working_days,working_day_id',
+            'doctor_id'      => 'required|exists:doctors,doctor_id',
+            'start_time'     => 'required|date_format:H:i:s',
+            'end_time'       => 'required|date_format:H:i:s|after:start_time',
+        ]);
 
-        return $hour;
+        if ($validatedData->fails()) {
+            return response()->json(['error' => $validatedData->errors()], 400);
+        }
+
+        $workingHour = WorkingHour::find($id);
+
+        if (!$workingHour) {
+            return response()->json(['error' => 'WorkingHour not found'], 404);
+        }
+
+        $workingHour->update($request->all());
+
+        return $workingHour;
     }
     public function destroy($id)
     {

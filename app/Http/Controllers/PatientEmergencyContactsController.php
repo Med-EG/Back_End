@@ -56,16 +56,26 @@ class PatientEmergencyContactsController extends Controller
     }
 
     // update certain contact
-    public function update(Request $request, $contact_id)
+    public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'patient_id' => 'exists:patients,patient_id',
-            'emergency_contact' => 'integer',
-            'contact_name' => 'string',
+        $validator = Validator::make($request->all(), [
+            'patient_id'       => 'required|exists:patients,patient_id',
+            'emergency_contact'=> 'required|integer',
+            'contact_name'     => 'required|string',
         ]);
 
-        $emergencyContact = PatientEmergencyContact::find($contact_id);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
+
+        $emergencyContact = PatientEmergencyContact::find($id);
+
+        if (!$emergencyContact) {
+            return response()->json(['error' => 'EmergencyContact not found'], 404);
+        }
+
         $emergencyContact->update($request->all());
+
         return $emergencyContact;
     }
     public function destroy($contact_id)
