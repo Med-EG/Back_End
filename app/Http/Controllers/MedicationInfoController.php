@@ -46,11 +46,30 @@ class MedicationInfoController extends Controller
     }
     public function update(Request $request, $id)
     {
-        $medicine = MedicationInfo::findOrFail($id);
-        $medicine->update($request->all());
-
-        return $medicine;
+        $validatedData = Validator::make($request->all(), [
+            'medicine_id'       => 'required|exists:medications,medicine_id',
+            'medical_record_id' => 'required|exists:basic_medical_info,medical_record_id',
+            'doctor_id'         => 'nullable|exists:doctors,doctor_id',
+            'dose'              => 'required|string',
+            'frequency'         => 'required|string',
+            'notes'             => 'nullable|string',
+        ]);
+    
+        if ($validatedData->fails()) {
+            return response()->json(['error' => $validatedData->errors()], 400);
+        }
+    
+        $medicineInfo = MedicationInfo::find($id);
+    
+        if (!$medicineInfo) {
+            return response()->json(['error' => 'MedicationInfo not found'], 404);
+        }
+    
+        $medicineInfo->update($request->all());
+    
+        return $medicineInfo;
     }
+    
     public function destroy($id)
     {
         $medicine = MedicationInfo::findOrFail($id);

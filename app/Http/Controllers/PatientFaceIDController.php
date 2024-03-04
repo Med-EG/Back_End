@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\PatientFaceId;
 use App\Models\Patient;
+use Illuminate\Support\Facades\Validator;
+
 
 class PatientFaceIDController extends Controller
 {
@@ -28,29 +30,39 @@ class PatientFaceIDController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'patient_id' => 'required|exists:patients,patient_id',
-            'face_image' => 'required|string',
-        ]);
+            'face_image' => 'required|string', ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
 
         $faceId = PatientFaceId::create($request->all());
-        return $faceId;
+
+        return response()->json($faceId, 201);
     }
+
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'patient_id' => 'exists:patients,patient_id',
-            'face_image' => 'string',
+        $validator = Validator::make($request->all(), [
+            'patient_id' => 'required|exists:patients,patient_id',
+            'face_image' => 'required|string', 
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
 
         $faceId = PatientFaceId::find($id);
 
         if (!$faceId) {
-            return response()->json(['error' => 'Face ID not found'], 404);
+            return response()->json(['error' => 'PatientFaceId not found'], 404);
         }
 
         $faceId->update($request->all());
+
         return $faceId;
     }
 
