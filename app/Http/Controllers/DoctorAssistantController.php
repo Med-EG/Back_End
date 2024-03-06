@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\DoctorAssistant;
 use App\Models\Doctor;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Hash;
 class DoctorAssistantController extends Controller
 {
 
@@ -31,26 +31,7 @@ class DoctorAssistantController extends Controller
         return response()->json($assistants);
     }
 
-    //storing new assistant
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'doctor_id' => 'required|exists:doctors,doctor_id',
-            'assistant_name' => 'required',
-            'email' => 'required|email|unique:doctor_assistants,email',
-            'password' => 'required',
-        ]);
-
-        $assistant = new DoctorAssistant();
-        $assistant->doctor_id = $validatedData['doctor_id'];
-        $assistant->assistant_name = $validatedData['assistant_name'];
-        $assistant->email = $validatedData['email'];
-        $assistant->password = bcrypt($validatedData['password']); // Hash the password
-
-        $assistant->save();
-        return response()->json($assistant, 201);
-    }
-
+    
     //show a single assistant
     public function show($doctorId)
     {
@@ -62,15 +43,23 @@ class DoctorAssistantController extends Controller
     {
         $assistant = DoctorAssistant::findOrFail($id);
 
-        $validatedData = $request->validate([
-            'assistant_name' => 'required',
-            'email' => 'required|email|unique:doctor_assistants,email,' . $id,
-            'password' => 'required',
+        $validatedData = Validator::make($request->all(), [
+            'doctor_id' => 'required|exists:doctors,doctor_id',
+            'assistant_name' => 'required|string',
+            'email' => 'required|email|unique:assistants,email',
+            'password' => 'required|string|min:8',
         ]);
+        
+        if ($validatedData->fails()) {
+            return response()->json(['error' => $validatedData->errors()], 400);
+        }
+        
+        $hashedPassword = Hash::make($request->password);
 
-        $assistant->assistant_name = $validatedData['assistant_name'];
-        $assistant->email = $validatedData['email'];
-        $assistant->password = bcrypt($validatedData['password']); // Hash the password
+        $assistant->doctor_id = $request->doctor_id; 
+        $assistant->assistant_name = $request->assistant_name;
+        $assistant->email = $request->email;
+        $assistant->password = $hashedPassword; // Hash the password
 
         $assistant->save();
 

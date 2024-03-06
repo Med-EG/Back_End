@@ -17,16 +17,16 @@ class MedicineAlertController extends Controller
         return $alerts;
     }
 
-    public function show($alert_id)
+    public function show($id)
     {
-        $Medicine_Alert = MedicineAlert::with('Patient')->find($alert_id);
+        $Medicine_Alert = MedicineAlert::with('Patient')->find($id);
         return $Medicine_Alert;
     }
       //showing all el alerts for one patients
-      public function getAllAlertsForPatient($patientId)
+      public function getAllAlertsForPatient($id)
       {
           // Validate the patient ID
-          $validator = Validator::make(['patient_id' => $patientId], [
+          $validator = Validator::make(['patient_id' => $id], [
               'patient_id' => 'required|exists:patients,patient_id',
           ]);
   
@@ -35,7 +35,7 @@ class MedicineAlertController extends Controller
           }
   
           // Retrieve all alerts for the specified patient
-          $alerts = MedicineAlert::where('patient_id', $patientId)->with('patient')->get();
+          $alerts = MedicineAlert::where('patient_id', $id)->with('patient')->get();
   
           return $alerts;
       }
@@ -78,9 +78,9 @@ class MedicineAlertController extends Controller
         return $medicineAlert;
     }
     
-    public function destroy($alertId)
+    public function destroy($id)
     {
-        $Medicine_Alert = MedicineAlert::find($alertId);
+        $Medicine_Alert = MedicineAlert::find($id);
      return   $Medicine_Alert->delete();
     }
 }

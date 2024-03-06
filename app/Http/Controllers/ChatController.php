@@ -17,9 +17,9 @@ class ChatController extends Controller
         return $chats;
     }
 
-    public function show($chatId)
+    public function show($id)
     {
-        $chat = Chat::with(['patient', 'doctor'])->find($chatId);
+        $chat = Chat::with(['patient', 'doctor'])->find($id);
 
         if ($chat) {
             return $chat;
@@ -43,9 +43,9 @@ class ChatController extends Controller
 
         return $chat;
     }
-    public function destroy($chatId)
+    public function destroy($id)
     {
-        $chat = Chat::find($chatId);
+        $chat = Chat::find($id);
 
         if ($chat) {
             $chat->delete();

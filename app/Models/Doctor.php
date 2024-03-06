@@ -22,7 +22,7 @@ class Doctor extends Authenticatable
         'country',
         'city',
         'street',
-        'years_of_experince',
+        'years_of_experience',
         'scientific_degree',
         'doctor_image',
         'price',

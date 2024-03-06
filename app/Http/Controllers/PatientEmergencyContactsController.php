@@ -18,15 +18,15 @@ class PatientEmergencyContactsController extends Controller
         return $emergencyContacts ;
     }
     // shows the details of one contact number
-    public function show($contact_id)
+    public function show($id)
     {
-         $emergencyContacts  = PatientEmergencyContact::with('patient')->find($contact_id);
+         $emergencyContacts  = PatientEmergencyContact::with('patient')->find($id);
         return $emergencyContacts ;
     }
     // shows the emergency contacts for one patient
-    public function getEmergencyContacts($patientId)
+    public function getEmergencyContacts($id)
     {
-        $patient = Patient::with('emergencyContacts')->find($patientId);
+        $patient = Patient::with('emergencyContacts')->find($id);
 
         if (!$patient) {
             return response()->json(['error' => 'Patient not found'], 404);
@@ -78,9 +78,9 @@ class PatientEmergencyContactsController extends Controller
 
         return $emergencyContact;
     }
-    public function destroy($contact_id)
+    public function destroy($id)
     {
-        $emergencyContact = PatientEmergencyContact::find($contact_id);
+        $emergencyContact = PatientEmergencyContact::find($id);
        return $emergencyContact->delete();
         
     }

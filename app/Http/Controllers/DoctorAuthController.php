@@ -24,14 +24,22 @@ class DoctorAuthController extends Controller
             'city' => 'required|string',
             'street' => 'required|string',
             'scientific_degree' => 'required|string',
-            'doctor_image' => 'required|string',
+            'doctor_image' => 'required|image',
             'price' => 'required|numeric',
             'rating' => 'integer',
-            'years_of_experince' => 'nullable|integer',
+            'years_of_experience' => 'nullable|integer',
         ]);
         
         if ($validatedData->fails()) {
             return response()->json(['error' => $validatedData->errors()], 400);
+        }
+        
+        $doctorImage = null;
+        if ($request->hasFile('doctor_image')) {
+            $image = $request->file('doctor_image');
+            $imageName = time().'.'.$image->extension();
+            $image->move(public_path('images'), $imageName);
+            $doctorImage = 'images/'.$imageName;
         }
         
         $hashedPassword = Hash::make($request->password);
@@ -49,10 +57,10 @@ class DoctorAuthController extends Controller
             'city' => $request->city,
             'street' => $request->street,
             'scientific_degree' => $request->scientific_degree,
-            'doctor_image' => $request->doctor_image,
+            'doctor_image' => $doctorImage,
             'price' => $request->price,
             'rating' => $request->rating ?? 0,
-            'years_of_experince' => $request->years_of_experince,
+            'years_of_experience' => $request->years_of_experience,
         ]);
         
         $doctor->save();

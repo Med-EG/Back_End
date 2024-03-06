@@ -78,9 +78,9 @@ class PatientFaceIDController extends Controller
       
     }
     
-    public function getFaceIdsForOnePatient($patientId)
+    public function getFaceIdsForOnePatient($id)
     {
-        $patient = Patient::with('patientFaceID')->find($patientId);
+        $patient = Patient::with('patientFaceID')->find($id);
 
         if (!$patient) {
             return response()->json(['error' => 'Patient not found'], 404);

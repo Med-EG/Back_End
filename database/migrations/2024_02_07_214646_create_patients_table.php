@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('gender');
             $table->integer('national_id')->unique();
             $table->string('email');
-            $table->text('Address');
+            $table->text('address');
             $table->date('birth_date');
             $table->integer('phone_number');
-            $table->string('Personal_image');
+            $table->string('personal_image');
             $table->timestamps();
         });
     }

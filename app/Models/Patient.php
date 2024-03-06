@@ -11,12 +11,14 @@ use App\Models\PatientFaceId;
 use App\Models\Chat;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+
 class Patient extends Authenticatable
 {
-    use HasFactory,HasApiTokens;
-    protected $fillable=['first_name','last_name','username','password','gender','national_id','email','address','birth_date','phone_number','Personal_image'
-];
-    protected $primaryKey='patient_id';
+    use HasFactory, HasApiTokens;
+    protected $fillable = [
+        'first_name', 'last_name', 'username', 'password', 'gender', 'national_id', 'email', 'address', 'birth_date', 'phone_number', 'personal_image'
+    ];
+    protected $primaryKey = 'patient_id';
     public function basicMedicalInfo()
     {
         return $this->hasOne(BasicMedicalInfo::class, 'patient_id', 'patient_id');
@@ -25,7 +27,7 @@ class Patient extends Authenticatable
     {
         return $this->hasMany(medicineAlert::class, 'patient_id');
     }
-   
+
     public function patientFaceID()
     {
         return $this->hasMany(PatientFaceId::class, 'patient_id');
@@ -38,5 +40,4 @@ class Patient extends Authenticatable
     {
         return $this->hasMany(Chat::class, 'doctor_id', 'doctor_id');
     }
-   
 }
