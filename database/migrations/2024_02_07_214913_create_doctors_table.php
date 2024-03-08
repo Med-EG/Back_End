@@ -24,9 +24,9 @@ return new class extends Migration
             $table->string('country');
             $table->string('city');
             $table->string('street');
-            $table->integer('years_of_experince');
+            $table->integer('years_of_experience')->nullable();
             $table->string('scientific_degree');
-            $table->binary('doctor_image');
+            $table->string('doctor_image');
             $table->decimal('price');
             $table->integer('rating');
             $table->timestamps();
