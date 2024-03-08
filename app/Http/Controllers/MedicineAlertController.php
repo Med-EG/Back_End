@@ -20,6 +20,9 @@ class MedicineAlertController extends Controller
     public function show($id)
     {
         $Medicine_Alert = MedicineAlert::with('Patient')->find($id);
+        if (!$Medicine_Alert) {
+            return response()->json(['error' => 'MedicineAlert not found'], 404);
+        }
         return $Medicine_Alert;
     }
       //showing all el alerts for one patients

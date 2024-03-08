@@ -17,8 +17,12 @@ class MedicationController extends Controller
 
     //Showing all data 
     public function show($id){
-        $medicine = Medication::findOrFail($id);
-        return $medicine; 
+        $medication = Medication::find($id);
+
+        if (!$medication) {
+            return response()->json(['error' => 'Medication not found'], 404);
+        }
+        return $medication; 
     }
 
     // Storing new Medicine 

@@ -18,7 +18,11 @@ class AllergiesController extends Controller
     //Showing all data 
     public function show($id)
     {
-        $allergy = Allergies::findOrFail($id);
+        $allergy = Allergies::find($id);
+
+    if (!$allergy) {
+        return response()->json(['error' => 'Allergy not found'], 404);
+    }
         return $allergy;
     }
 

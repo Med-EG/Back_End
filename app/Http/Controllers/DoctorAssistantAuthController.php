@@ -13,7 +13,7 @@ class DoctorAssistantAuthController extends Controller
         $validatedData = Validator::make($request->all(), [
             'doctor_id' => 'required|exists:doctors,doctor_id',
             'assistant_name' => 'required|string',
-            'email' => 'required|email|unique:assistants,email',
+            'email' => 'required|email|unique:doctor_assistants,email',
             'password' => 'required|string|min:8',
         ]);
         

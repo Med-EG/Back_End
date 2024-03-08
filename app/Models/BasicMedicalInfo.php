@@ -30,7 +30,7 @@ class BasicMedicalInfo extends Model
         'mother',
         'second_degree',
     ];
-
+ 
     public function patient()
     {
         return $this->belongsTo(Patient::class, 'patient_id', 'patient_id');

@@ -98,7 +98,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Doctor contact numbers routes
     // =============================================================================================
     Route::get('/number', [DoctorContactNumberController::class, 'index']);
-    Route::get('/number/doc/{id}', [DoctorContactNumberController::class, 'showByDoctor']);
+    Route::get('/number/doctor/{id}', [DoctorContactNumberController::class, 'showByDoctor']);
     Route::get('/number/{id}', [DoctorContactNumberController::class, 'showById']);
     Route::post('/number', [DoctorContactNumberController::class, 'store']);
     Route::put('/number/{id}', [DoctorContactNumberController::class, 'update']);
@@ -197,8 +197,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // =============================================================================================
     Route::get('/patients', [PatientController::class, 'index']);
     Route::get('/patients/{id}', [PatientController::class, 'show']);
-    Route::put('/patients/{id}/update', [PatientController::class, 'update']);
-    Route::delete('/patients/{id}/delete', [PatientController::class, 'destroy']);
+    Route::put('/patients/{id}', [PatientController::class, 'update']);
+    Route::delete('/patients/{id}', [PatientController::class, 'destroy']);
 
     // Patient Emergency Contact routes
     // =============================================================================================
@@ -262,13 +262,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/chat', [ChatController::class, 'index']);
     Route::get('/chat/{id}', [ChatController::class, 'show']);
     Route::post('/chat', [ChatController::class, 'store']);
-    Route::delete('/chat/delete/{id}', [ChatController::class, 'destroy']);
+    Route::delete('/chat/{id}', [ChatController::class, 'destroy']);
 
     // Messages routes
     // =============================================================================================
     Route::get('/message/chat/{id}', [MessageController::class, 'showMessagesInChat']);
+    Route::get('/message/{id}', [MessageController::class, 'show']);
     Route::post('/message', [MessageController::class, 'store']);
-    Route::put('/message', [MessageController::class, 'update']);
+    Route::put('/message/{id}', [MessageController::class, 'update']);
     Route::delete('/message/delete/{id}', [MessageController::class, 'destroy']);
 
 

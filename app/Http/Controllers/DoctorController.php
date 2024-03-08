@@ -28,7 +28,7 @@ class DoctorController extends Controller
         }
 
         // Doctor ID exists, retrieve the doctor
-        $doctor = Doctor::findOrFail($id);
+        $doctor = Doctor::find($id);
 
         // Return the doctor's information
         return response()->json(['doctor' => $doctor], 200);
@@ -64,6 +64,15 @@ class DoctorController extends Controller
 
         $hashedPassword = Hash::make($request->password);
 
+        $doctorImage = null;
+        if ($request->hasFile('doctor_image')) {
+            $image = $request->file('doctor_image');
+            $imageName = time().'.'.$image->extension();
+            $image->move(public_path('images'), $imageName);
+            $doctorImage = 'images/'.$imageName;
+        }
+        
+
         $doctor->first_name = $request->first_name;
         $doctor->last_name = $request->last_name;
         $doctor->email = $request->email;
@@ -77,7 +86,7 @@ class DoctorController extends Controller
         $doctor->street = $request->street;
         $doctor->years_of_experience = $request->years_of_experience;
         $doctor->scientific_degree = $request->scientific_degree;
-        $doctor->doctor_image = $request->doctor_image;
+        $doctor->doctor_image = $doctorImage;
         $doctor->price = $request->price;
 
         $doctor->save();
@@ -119,6 +128,9 @@ class DoctorController extends Controller
     public function destroy($id)
     {
         $doctor = Doctor::findOrFail($id);
+        if(!$doctor){
+            return response()->json(['error' => 'Doctor not found']);    
+        }
         $doctor->delete();
         return response()->json('Doctor Deleted successfully');
     }

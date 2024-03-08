@@ -17,7 +17,11 @@ class OperationController extends Controller
 
     //Showing all data 
     public function show($id){
-        $operation = Operation::findOrFail($id);
+        $operation = Operation::find($id);
+
+        if (!$operation) {
+            return response()->json(['error' => 'Operation not found'], 404);
+        }
         return $operation; 
     }
 

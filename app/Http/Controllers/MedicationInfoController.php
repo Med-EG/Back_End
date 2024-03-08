@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MedicationInfo;
 use Illuminate\Support\Facades\Validator;
+
 class MedicationInfoController extends Controller
 {
     public function index()
@@ -16,20 +17,32 @@ class MedicationInfoController extends Controller
     }
     public function show($id)
     {
-        $medicine = MedicationInfo::findOrFail($id);
-        return $medicine;
+        $medicineInfo = MedicationInfo::find($id);
+
+        if (!$medicineInfo) {
+            return response()->json(['error' => 'MedicationInfo not found'], 404);
+        }
+        return $medicineInfo;
     }
-    public function showByRecord($recordId)
+    public function showByRecord($id)
     {
-        return MedicationInfo::with('workingDay')->where('medical_record_id', $recordId)->firstOrFail();
+        $medicineInfo = MedicationInfo::with('medicationInfo')->where('medical_record_id', $id)->first();
+        if (!$medicineInfo) {
+            return response()->json(['error' => 'MedicationInfo not found'], 404);
+        }
+        return $medicineInfo;
     }
-    public function showByDoctor($doctorId)
+    public function showByDoctor($id)
     {
-        return MedicationInfo::with('doctor')->where('doctor_id', $doctorId)->firstOrFail();
+        $medicineInfo = MedicationInfo::with('doctor')->where('doctor_id', $id)->first();
+        if (!$medicineInfo) {
+            return response()->json(['error' => 'Doctor Not Found not found'], 404);
+        }
+        return $medicineInfo;
     }
     public function store(Request $request)
     {
-        $validatedData =Validator::make( $request->all(),[
+        $validatedData = Validator::make($request->all(), [
             'medicine_id' => 'required|exists:medications,medicine_id',
             'medical_record_id' => 'required|exists:basic_medical_info,medical_record_id',
             'doctor_id' => 'nullable|exists:doctors,doctor_id',
@@ -54,25 +67,29 @@ class MedicationInfoController extends Controller
             'frequency'         => 'required|string',
             'notes'             => 'nullable|string',
         ]);
-    
+
         if ($validatedData->fails()) {
             return response()->json(['error' => $validatedData->errors()], 400);
         }
-    
+
         $medicineInfo = MedicationInfo::find($id);
-    
+
         if (!$medicineInfo) {
             return response()->json(['error' => 'MedicationInfo not found'], 404);
         }
-    
+
         $medicineInfo->update($request->all());
-    
+
         return $medicineInfo;
     }
-    
+
     public function destroy($id)
     {
-        $medicine = MedicationInfo::findOrFail($id);
-        $medicine->delete();
+        $medicineInfo = MedicationInfo::find($id);
+
+        if (!$medicineInfo) {
+            return response()->json(['error' => 'MedicationInfo not found'], 404);
+        }
+        $medicineInfo->delete();
     }
 }

@@ -21,7 +21,7 @@ class PatientAuthController extends Controller
             'address' => 'required|string',
             'birth_date' => 'required|date',
             'phone_number' => 'required|numeric',
-            'personal_image' => 'required|string',
+            'personal_image' => 'required|image',
         ]);
         
         if ($validatedData->fails()) {

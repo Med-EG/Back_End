@@ -16,10 +16,10 @@ class MedicineAlert extends Model
 
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_id','patient_id');
+        return $this->belongsTo(Patient::class, 'patient_id', 'patient_id');
     }
     public function alertTimes()
-{
-    return $this->hasMany(AlertTime::class, 'alert_id', 'alert_id');
-}
+    {
+        return $this->hasMany(AlertTime::class, 'alert_id', 'alert_id');
+    }
 }

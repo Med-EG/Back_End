@@ -47,9 +47,15 @@ class WorkingDayController extends Controller
         return response()->json($workingDay, 201);
     }
     //show a single day
-    public function show($doctorId)
+    public function show($id)
     {
-        return WorkingDay::with('doctor')->where('doctor_id', $doctorId)->firstOrFail();
+        $day = WorkingDay::find($id);
+        if (!$day) {
+            return response()->json(['error' => 'Working Day not found'], 404);
+        }
+    
+        $day = WorkingDay::where('working_day_id', $id)->get();
+        return response()->json($day);
     }
 
     //updating a day

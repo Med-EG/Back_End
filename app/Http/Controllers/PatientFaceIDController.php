@@ -7,13 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\PatientFaceId;
 use App\Models\Patient;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 
 class PatientFaceIDController extends Controller
 {
     public function index()
     {
-        $faceIds = PatientFaceId::with('patient')->get();
+        $faceIds = PatientFaceId::all();
         return $faceIds;
     }
 
@@ -32,13 +33,27 @@ class PatientFaceIDController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'patient_id' => 'required|exists:patients,patient_id',
-            'face_image' => 'required|string', ]);
+            'face_image' => 'required|image',
+        ]);
 
         if ($validator->fails()) {
             return response()->json(['error' => $validator->errors()], 400);
         }
 
-        $faceId = PatientFaceId::create($request->all());
+        $personalImage = null;
+        if ($request->hasFile('face_image')) {
+            $image = $request->file('face_image');
+            $imageName = time() . '.' . $image->extension();
+            $image->move(public_path('images'), $imageName);
+            $personalImage = 'images/' . $imageName;
+        }
+
+        $faceId = new PatientFaceId([
+            "patient_id" => $request->patient_id,
+            "face_image" => $personalImage
+        ]);
+
+        $faceId->save();
 
         return response()->json($faceId, 201);
     }
@@ -48,7 +63,7 @@ class PatientFaceIDController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'patient_id' => 'required|exists:patients,patient_id',
-            'face_image' => 'required|string', 
+            'face_image' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -60,8 +75,18 @@ class PatientFaceIDController extends Controller
         if (!$faceId) {
             return response()->json(['error' => 'PatientFaceId not found'], 404);
         }
+        $personalImage = null;
+        if ($request->hasFile('face_image')) {
+            $image = $request->file('face_image');
+            $imageName = time() . '.' . $image->extension();
+            $image->move(public_path('images'), $imageName);
+            $personalImage = 'images/' . $imageName;
+        }
 
-        $faceId->update($request->all());
+        $faceId->update([
+            "patient_id" => $request->patient_id,
+            "face_image" => $personalImage
+        ]);
 
         return $faceId;
     }
@@ -74,10 +99,9 @@ class PatientFaceIDController extends Controller
             return response()->json(['error' => 'Face ID not found'], 404);
         }
 
-       return $faceId->delete();
-      
+        return $faceId->delete();
     }
-    
+
     public function getFaceIdsForOnePatient($id)
     {
         $patient = Patient::with('patientFaceID')->find($id);
@@ -86,8 +110,6 @@ class PatientFaceIDController extends Controller
             return response()->json(['error' => 'Patient not found'], 404);
         }
 
-     return  $patient;
-
-       
+        return  $patient;
     }
 }

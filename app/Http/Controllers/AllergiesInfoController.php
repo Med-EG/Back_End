@@ -18,16 +18,29 @@ class AllergiesInfoController extends Controller
     }
     public function show($id)
     {
-        $allergy = AllergiesInfo::findOrFail($id);
-        return $allergy;
+        $allergyInfo = AllergiesInfo::find($id);
+    
+        if (!$allergyInfo) {
+            return response()->json(['error' => 'AllergiesInfo not found'], 404);
+        }
+        return $allergyInfo;
     }
     public function showByRecord($recordId)
     {
-        return AllergiesInfo::with('workingDay')->where('medical_record_id', $recordId)->firstOrFail();
+        $allergyInfo = AllergiesInfo::with('allergiesInfo')->where('medical_record_id', $recordId)->firstOrFail();
+        if (!$allergyInfo) {
+            return response()->json(['error' => 'AllergiesInfo not found'], 404);
+        }
+        return $allergyInfo;
+        
     }
     public function showByDoctor($doctorId)
     {
-        return AllergiesInfo::with('doctor')->where('doctor_id', $doctorId)->firstOrFail();
+        $allergyInfo = AllergiesInfo::with('doctor')->where('doctor_id', $doctorId)->firstOrFail();
+        if (!$allergyInfo) {
+            return response()->json(['error' => 'AllergiesInfo not found'], 404);
+        }
+        return $allergyInfo;
     }
     public function store(Request $request)
     {
@@ -74,7 +87,11 @@ class AllergiesInfoController extends Controller
     
     public function destroy($id)
     {
-        $allergy = AllergiesInfo::findOrFail($id);
-        $allergy->delete();
+        $allergyInfo = AllergiesInfo::find($id);
+    
+        if (!$allergyInfo) {
+            return response()->json(['error' => 'AllergiesInfo not found'], 404);
+        }
+        $allergyInfo->delete();
     }
 }

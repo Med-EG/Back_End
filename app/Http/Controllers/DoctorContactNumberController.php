@@ -20,14 +20,14 @@ class DoctorContactNumberController extends Controller
     }
 
     //showing all el numbers for one doctor
-    public function showByDoctor($doctorId)
+    public function showByDoctor($id)
     {
-        $doctor = Doctor::find($doctorId);
+        $doctor = Doctor::find($id);
         if (!$doctor) {
             return response()->json(['error' => 'Doctor not found'], 404);
         }
     
-        $number = DoctorContactNumber::where('doctor_id', $doctorId)->get();
+        $number = DoctorContactNumber::where('doctor_id', $id)->get();
         return response()->json($number);
     }
 
@@ -50,7 +50,10 @@ class DoctorContactNumberController extends Controller
     //show a single number
     public function showById($id)
     {
-        $number = DoctorContactNumber::findOrFail($id);
+        $number = DoctorContactNumber::find($id);
+        if(!$number){
+            return response()->json(['error' => 'Contact not found']);    
+        }
         return response()->json($number, 200);
         
     }
@@ -81,7 +84,10 @@ class DoctorContactNumberController extends Controller
     //delete a day
     public function destroy($id)
     {
-        $number = DoctorContactNumber::findOrFail($id);
+        $number = DoctorContactNumber::find($id);
+        if(!$number){
+            return response()->json(['error' => 'Contact not found']);    
+        }
         $number->delete();
         return response()->json(null, 204);
     }

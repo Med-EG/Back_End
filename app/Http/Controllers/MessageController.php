@@ -26,7 +26,14 @@ class MessageController extends Controller
 
         return response()->json(['messages' => $messages], 200);
     }
+    public function show($id){
+        $message = Message::find($id);
 
+        if (!$message) {
+            return response()->json(['error' => 'Message not found'], 404);
+        }
+        return response()->json($message); 
+    }
 
     public function store(Request $request)
     {
@@ -46,15 +53,15 @@ class MessageController extends Controller
         $message->content = $request->content;
         $message->save();
 
-        return response()->json(['message' => 'Message created successfully'], 201);
+        return response()->json($message, 201);
     }
 
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'chat_id' => 'sometimes|required|exists:chats,chat_id',
-            'sender' => 'sometimes|required|string',
-            'content' => 'sometimes|required|string',
+            'chat_id' => 'sometimes|exists:chats,chat_id',
+            'sender' => 'sometimes|string',
+            'content' => 'sometimes|string',
         ]);
 
         if ($validator->fails()) {
@@ -78,7 +85,7 @@ class MessageController extends Controller
 
         $message->save();
 
-        return response()->json(['message' => 'Message updated successfully'], 200);
+        return response()->json($message, 200);
     }
 
     public function destroy($id)

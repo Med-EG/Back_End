@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Doctor;
+use App\Models\WorkingDay;
 use Illuminate\Http\Request;
 use App\Models\WorkingHour;
 use Illuminate\Support\Facades\Validator;
@@ -16,24 +18,40 @@ class WorkingHourController extends Controller
     }
     public function show($id)
     {
-        $hour = WorkingHour::findOrFail($id);
-        return $hour;
+        $hour = WorkingHour::find($id);
+        if (!$hour) {
+            return response()->json(['error' => 'Wokring Hour not found'], 404);
+        }
+    
+        return response()->json($hour);
     }
-    public function showByDay($dayId)
+    public function showByDay($id)
     {
-        return WorkingHour::with('workingDay')->where('working_day_id', $dayId)->firstOrFail();
+        $day = WorkingDay::find($id);
+        if (!$day) {
+            return response()->json(['error' => 'Working Day not found'], 404);
+        }
+    
+        $hours = WorkingHour::where('working_day_id', $id)->get();
+        return response()->json($hours);
     }
-    public function showByDoctor($doctorId)
+    public function showByDoctor($id)
     {
-        return WorkingHour::with('doctor')->where('doctor_id', $doctorId)->firstOrFail();
+        $doctor = Doctor::find($id);
+        if (!$doctor) {
+            return response()->json(['error' => 'Doctor not found'], 404);
+        }
+    
+        $hours = WorkingHour::where('doctor_id', $id)->get();
+        return response()->json($hours);
     }
     public function store(Request $request)
     {
         $validatedData =Validator::make( $request->all(),[
             'working_day_id' => 'required|exists:working_days,working_day_id',
             'doctor_id' => 'required|exists:doctors,doctor_id',
-            'start_time' => 'required|date_format:H:i:s',
-            'end_time' => 'required|date_format:H:i:s|after:start_time'
+            'start_time' => 'required|date_format:H:i',
+            'end_time' => 'required|date_format:H:i|after:start_time'
         ]);
         if ($validatedData->fails()) {
             return response()->json(['error' => $validatedData->errors()], 400);
@@ -47,8 +65,8 @@ class WorkingHourController extends Controller
         $validatedData = Validator::make($request->all(), [
             'working_day_id' => 'required|exists:working_days,working_day_id',
             'doctor_id'      => 'required|exists:doctors,doctor_id',
-            'start_time'     => 'required|date_format:H:i:s',
-            'end_time'       => 'required|date_format:H:i:s|after:start_time',
+            'start_time'     => 'required|date_format:H:i',
+            'end_time'       => 'required|date_format:H:i|after:start_time',
         ]);
 
         if ($validatedData->fails()) {

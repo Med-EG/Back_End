@@ -17,20 +17,32 @@ class OperationInfoController extends Controller
     }
     public function show($id)
     {
-        $operation = OperationInfo::findOrFail($id);
-        return $operation;
+        $operationInfo = OperationInfo::find($id);
+
+        if (!$operationInfo) {
+            return response()->json(['error' => 'OperationInfo not found'], 404);
+        }
+        return $operationInfo;
     }
     public function showByRecord($recordId)
     {
-        return OperationInfo::with('workingDay')->where('medical_record_id', $recordId)->firstOrFail();
+        $operationInfo = OperationInfo::with('operationInfo')->where('medical_record_id', $recordId)->firstOrFail();
+        if (!$operationInfo) {
+            return response()->json(['error' => 'OperationInfo not found'], 404);
+        }
+        return $operationInfo;
     }
     public function showByDoctor($doctorId)
     {
-        return OperationInfo::with('doctor')->where('doctor_id', $doctorId)->firstOrFail();
+        $operationInfo = OperationInfo::with('doctor')->where('doctor_id', $doctorId)->firstOrFail();
+        if (!$operationInfo) {
+            return response()->json(['error' => 'OperationInfo not found'], 404);
+        }
+        return $operationInfo;
     }
     public function store(Request $request)
     {
-        $validatedData =Validator::make( $request->all(),[
+        $validatedData = Validator::make($request->all(), [
             'operation_id' => 'required|exists:operations,operation_id',
             'medical_record_id' => 'required|exists:basic_medical_info,medical_record_id',
             'doctor_id' => 'required|exists:doctors,doctor_id',
@@ -50,32 +62,36 @@ class OperationInfoController extends Controller
     {
         $validatedData = Validator::make($request->all(), [
             'operation_id'     => 'required|exists:operations,operation_id',
-            'medical_record_id'=> 'required|exists:basic_medical_info,medical_record_id',
+            'medical_record_id' => 'required|exists:basic_medical_info,medical_record_id',
             'doctor_id'        => 'required|exists:doctors,doctor_id',
             'operation_date'   => 'required|date',
             'surgeon_name'     => 'nullable|string',
             'operation_notes'  => 'nullable|string',
             'complications'    => 'nullable|string',
         ]);
-    
+
         if ($validatedData->fails()) {
             return response()->json(['error' => $validatedData->errors()], 400);
         }
-    
+
         $operationInfo = OperationInfo::find($id);
-    
+
         if (!$operationInfo) {
             return response()->json(['error' => 'OperationInfo not found'], 404);
         }
-    
+
         $operationInfo->update($request->all());
-    
+
         return $operationInfo;
     }
-    
+
     public function destroy($id)
     {
-        $operation = OperationInfo::findOrFail($id);
-        $operation->delete();
+        $operationInfo = OperationInfo::find($id);
+
+        if (!$operationInfo) {
+            return response()->json(['error' => 'OperationInfo not found'], 404);
+        }
+        $operationInfo->delete();
     }
 }

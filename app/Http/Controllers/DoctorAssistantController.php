@@ -8,6 +8,7 @@ use App\Models\DoctorAssistant;
 use App\Models\Doctor;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+
 class DoctorAssistantController extends Controller
 {
 
@@ -26,16 +27,20 @@ class DoctorAssistantController extends Controller
         if (!$doctor) {
             return response()->json(['error' => 'Doctor not found'], 404);
         }
-    
+
         $assistants = DoctorAssistant::where('doctor_id', $doctorId)->get();
         return response()->json($assistants);
     }
 
-    
+
     //show a single assistant
-    public function show($doctorId)
+    public function show($id)
     {
-        return DoctorAssistant::with('doctor')->where('doctor_id', $doctorId)->firstOrFail();
+        $assistant = DoctorAssistant::find($id);
+        if (!$assistant) {
+            return response()->json(['error' => 'Doctor assistant not found'], 404);
+        }
+        return response()->json($assistant);
     }
 
     //updating an assistant
@@ -49,14 +54,14 @@ class DoctorAssistantController extends Controller
             'email' => 'required|email|unique:assistants,email',
             'password' => 'required|string|min:8',
         ]);
-        
+
         if ($validatedData->fails()) {
             return response()->json(['error' => $validatedData->errors()], 400);
         }
-        
+
         $hashedPassword = Hash::make($request->password);
 
-        $assistant->doctor_id = $request->doctor_id; 
+        $assistant->doctor_id = $request->doctor_id;
         $assistant->assistant_name = $request->assistant_name;
         $assistant->email = $request->email;
         $assistant->password = $hashedPassword; // Hash the password

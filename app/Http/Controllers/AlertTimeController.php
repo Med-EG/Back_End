@@ -31,7 +31,7 @@ class AlertTimeController extends Controller
     {
         $validatedData =Validator::make( $request->all(),[
             'alert_id' => 'required|exists:medicine_alerts,alert_id',
-            'alert_time' => 'required|date_format:H:i:s',
+            'alert_time' => 'required|date_format:H:i',
         ]);
         if ($validatedData->fails()) {
             return response()->json(['error' => $validatedData->errors()], 400);
@@ -47,7 +47,7 @@ class AlertTimeController extends Controller
      
         $validatedData =Validator::make( $request->all(),[
             'alert_id' => 'required|exists:medicine_alerts,alert_id',
-            'alert_time' => 'required|date_format:H:i:s',
+            'alert_time' => 'required|date_format:H:i',
         ]);
         if ($validatedData->fails()) {
             return response()->json(['error' => $validatedData->errors()], 400);

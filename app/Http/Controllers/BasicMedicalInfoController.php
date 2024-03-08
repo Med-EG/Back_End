@@ -18,7 +18,11 @@ class BasicMedicalInfoController extends Controller
     }
     public function show($patientId)
     {
-        return BasicMedicalInfo::with('patient')->where('patient_id', $patientId)->firstOrFail();
+        $medicalInfo = BasicMedicalInfo::with('patient')->where('patient_id', $patientId)->first();
+        if (!$medicalInfo) {
+            return response()->json(['error' => 'BasicMedicalInfo not found'], 404);
+        }
+        return $medicalInfo;
     }
     public function store(Request $request)
     {
@@ -87,7 +91,10 @@ class BasicMedicalInfoController extends Controller
     
     public function destroy($id)
     {
-        $medicalInfo = BasicMedicalInfo::findOrFail($id);
+        $medicalInfo = BasicMedicalInfo::find($id);
+        if (!$medicalInfo) {
+            return response()->json(['error' => 'BasicMedicalInfo not found'], 404);
+        }
         $medicalInfo->delete();
     }
 }

@@ -17,7 +17,11 @@ class DiseaseController extends Controller
 
     //Showing all data 
     public function show($id){
-        $disease = Disease::findOrFail($id);
+        $disease = Disease::find($id);
+
+        if (!$disease) {
+            return response()->json(['error' => 'Disease not found'], 404);
+        }
         return response()->json($disease); 
     }
 

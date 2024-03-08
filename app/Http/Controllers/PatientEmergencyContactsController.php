@@ -14,14 +14,17 @@ class PatientEmergencyContactsController extends Controller
     //shows all the contacts
     public function index()
     {
-         $emergencyContacts  = PatientEmergencyContact::with('patient')->get();
+        $emergencyContacts  = PatientEmergencyContact::all();
         return $emergencyContacts ;
     }
     // shows the details of one contact number
     public function show($id)
     {
          $emergencyContacts  = PatientEmergencyContact::with('patient')->find($id);
-        return $emergencyContacts ;
+         if (!$emergencyContacts) {
+             return response()->json(['error' => 'EmergencyContact not found'], 404);
+         }
+         return $emergencyContacts ;
     }
     // shows the emergency contacts for one patient
     public function getEmergencyContacts($id)
@@ -81,7 +84,10 @@ class PatientEmergencyContactsController extends Controller
     public function destroy($id)
     {
         $emergencyContact = PatientEmergencyContact::find($id);
-       return $emergencyContact->delete();
+        if (!$emergencyContact) {
+            return response()->json(['error' => 'EmergencyContact not found'], 404);
+        }
+        return $emergencyContact->delete();
         
     }
 }
